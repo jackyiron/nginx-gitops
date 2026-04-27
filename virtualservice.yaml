@@ -9,7 +9,7 @@ spec:
   - istio-system/monitoring-gateway 
   # 修改為 nginx 專屬的子網域，避免搶奪 www 主站流量
   hosts:
-  - nginx.jacky3.com 
+  - www.jacky3.com 
   http:
   - route:
     - destination:

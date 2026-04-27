@@ -1,28 +1,17 @@
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: nginx-vs
   namespace: test-app
 spec:
-  hosts:
-  - "www.jacky3.com"
+  # 改為引用全域 Gateway
   gateways:
-  - nginx-gateway
+  - istio-system/monitoring-gateway 
+  # 修改為 nginx 專屬的子網域，避免搶奪 www 主站流量
+  hosts:
+  - nginx.jacky3.com 
   http:
-  - match:
-    - uri:
-        prefix: /
-    route:
-    - destination:
-        host: nginx-service.test-app.svc.cluster.local
-        port:
-          number: 80
-  tls:
-  - match:
-    - port: 443
-      sniHosts:
-      - www.jacky3.com
-    route:
+  - route:
     - destination:
         host: nginx-service.test-app.svc.cluster.local
         port:
